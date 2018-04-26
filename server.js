@@ -3,8 +3,15 @@ const mongoose = require("mongoose");
 const users = require("./routes/api/users");
 const profile = require("./routes/api/profile");
 const posts = require("./routes/api/posts");
+const bodyParser = require("body-parser");
+const gravatar = require("gravatar");
+const bcrypt = require("bcryptjs");
 
 const app = express();
+
+// Body parser middleware
+app.use(bodyParser.isUrlEncoded({ extended: false }));
+app.use(bodyParser.json({}));
 
 // DB Config
 const db = require("./config/keys").mongoUri;
