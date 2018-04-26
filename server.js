@@ -10,7 +10,7 @@ const bcrypt = require("bcryptjs");
 const app = express();
 
 // Body parser middleware
-app.use(bodyParser.isUrlEncoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json({}));
 
 // DB Config

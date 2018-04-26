@@ -45,4 +45,25 @@ router.post("/register", (req, res) =>
     }
   })
 );
+
+router.post("/login", (req, res) => {
+  const email = req.body.email;
+  const password = req.body.password;
+  User.findOne({ email }).then(user => {
+    // check for user
+    if (!user) {
+      res.status(400).error({ errorMessage: "user not found" });
+    } else {
+      // check password
+      bcrypt.compare(password, user.password).then(isMatch => {
+        if (isMatch) {
+          // Generate token
+          res.json({ message: "password matched" });
+        } else {
+          res.status(400).json({ errorMessage: "Password Incorrect" });
+        }
+      });
+    }
+  });
+});
 module.exports = router;
