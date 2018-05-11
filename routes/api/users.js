@@ -1,5 +1,9 @@
 const express = require("express");
 const router = express.Router();
+const gravatar = require("gravatar");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const keys = require("../../config/keys");
 
 // Load user module
 const User = require("../../models/User");
@@ -39,7 +43,7 @@ router.post("/register", (req, res) =>
           newUser
             .save()
             .then(user => res.json(user))
-            .error(err => console.log(err));
+            .catch(err => console.log(err));
         });
       });
     }
@@ -52,13 +56,29 @@ router.post("/login", (req, res) => {
   User.findOne({ email }).then(user => {
     // check for user
     if (!user) {
-      res.status(400).error({ errorMessage: "user not found" });
+      res.status(400).json({ errorMessage: "user not found" });
     } else {
       // check password
       bcrypt.compare(password, user.password).then(isMatch => {
         if (isMatch) {
+          // User matched
+          // Create payload
+          const payload = {
+            id: user.id
+          };
+
           // Generate token
-          res.json({ message: "password matched" });
+          jwt.sign(
+            payload,
+            keys.secretKey,
+            { expiresIn: 1800 },
+            (err, token) => {
+              res.json({
+                status: "Success",
+                token: "bearer " + token
+              });
+            }
+          );
         } else {
           res.status(400).json({ errorMessage: "Password Incorrect" });
         }
