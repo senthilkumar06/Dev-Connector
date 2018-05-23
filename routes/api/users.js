@@ -8,6 +8,7 @@ const passport = require("passport");
 
 // Load input validation
 const validateRegisterInput = require("../../validation/register");
+const validateLoginInput = require("../../validation/login");
 
 // Load user module
 const User = require("../../models/User");
@@ -61,40 +62,42 @@ router.post("/register", (req, res) => {
 });
 
 router.post("/login", (req, res) => {
+  const { errors, isValid } = validateLoginInput(req.body);
+
+  // Check Validation
+  if (!isValid) {
+    return res.status(400).json(errors);
+  }
+
   const email = req.body.email;
   const password = req.body.password;
-  User.findOne({ email }).then(user => {
-    // check for user
-    if (!user) {
-      res.status(400).json({ errorMessage: "user not found" });
-    } else {
-      console.log(user.name);
-      // check password
-      bcrypt.compare(password, user.password).then(isMatch => {
-        if (isMatch) {
-          // User matched
-          // Create payload
-          const payload = {
-            id: user.id
-          };
 
-          // Generate token
-          jwt.sign(
-            payload,
-            keys.secretKey,
-            { expiresIn: 1800 },
-            (err, token) => {
-              res.json({
-                status: "Success",
-                token: "bearer " + token
-              });
-            }
-          );
-        } else {
-          res.status(400).json({ errorMessage: "Password Incorrect" });
-        }
-      });
+  // Find user by email
+  User.findOne({ email }).then(user => {
+    // Check for user
+    if (!user) {
+      errors.email = "User not found";
+      return res.status(404).json(errors);
     }
+
+    // Check Password
+    bcrypt.compare(password, user.password).then(isMatch => {
+      if (isMatch) {
+        // User Matched
+        const payload = { id: user.id, name: user.name, avatar: user.avatar }; // Create JWT Payload
+        console.log(payload);
+        // Sign Token
+        jwt.sign(payload, keys.secretKey, { expiresIn: 3600 }, (err, token) => {
+          res.json({
+            success: true,
+            token: "Bearer " + token
+          });
+        });
+      } else {
+        errors.password = "Password incorrect";
+        return res.status(400).json(errors);
+      }
+    });
   });
 });
 
