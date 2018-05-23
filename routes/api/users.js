@@ -4,6 +4,10 @@ const gravatar = require("gravatar");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const keys = require("../../config/keys");
+const passport = require("passport");
+
+// Load input validation
+const validateRegisterInput = require("../../validation/register");
 
 // Load user module
 const User = require("../../models/User");
@@ -21,7 +25,13 @@ router.get("/test", (req, res) =>
 // @desc    Register users route
 // @access  Public
 
-router.post("/register", (req, res) =>
+router.post("/register", (req, res) => {
+  const { errors, isValid } = validateRegisterInput(req.body);
+
+  // Check validity of request
+  if (!isValid) {
+    return res.status(400).json(errors);
+  }
   User.findOne({ email: req.body.email }).then(user => {
     if (user) {
       return res.status(400).json({ error: "Email already exists" });
@@ -47,8 +57,8 @@ router.post("/register", (req, res) =>
         });
       });
     }
-  })
-);
+  });
+});
 
 router.post("/login", (req, res) => {
   const email = req.body.email;
@@ -58,6 +68,7 @@ router.post("/login", (req, res) => {
     if (!user) {
       res.status(400).json({ errorMessage: "user not found" });
     } else {
+      console.log(user.name);
       // check password
       bcrypt.compare(password, user.password).then(isMatch => {
         if (isMatch) {
@@ -86,4 +97,16 @@ router.post("/login", (req, res) => {
     }
   });
 });
+
+// @route   GET api/users/current
+// @desc    Get the current user route
+// @access  Private
+router.get(
+  "/current",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    res.json(req.user);
+  }
+);
+
 module.exports = router;

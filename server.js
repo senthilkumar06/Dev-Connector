@@ -6,6 +6,7 @@ const posts = require("./routes/api/posts");
 const bodyParser = require("body-parser");
 const gravatar = require("gravatar");
 const bcrypt = require("bcryptjs");
+const passport = require("passport");
 
 const app = express();
 
@@ -22,7 +23,11 @@ mongoose
   .then(() => console.log("MongoDB Connected"))
   .catch(err => console.log(err));
 
-app.get("/", (req, res) => res.send("World"));
+// Passport middleware
+app.use(passport.initialize());
+
+// Passport config
+require("./config/passport")(passport);
 
 // Use Routes
 app.use("/api/users", users);
