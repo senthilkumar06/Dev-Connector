@@ -1,11 +1,11 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 // Create Schema
-const profileSchema = new Schema({
+const ProfileSchema = new Schema({
   user: {
     type: Schema.Types.ObjectId,
-    ref: "users"
+    ref: 'users'
   },
   handle: {
     type: String,
@@ -13,16 +13,13 @@ const profileSchema = new Schema({
     max: 40
   },
   company: {
-    type: String,
-    required: false
+    type: String
   },
   website: {
-    type: String,
-    required: false
+    type: String
   },
   location: {
-    type: String,
-    required: false
+    type: String
   },
   status: {
     type: String,
@@ -33,12 +30,10 @@ const profileSchema = new Schema({
     required: true
   },
   bio: {
-    type: String,
-    required: false
+    type: String
   },
   githubusername: {
-    type: String,
-    required: false
+    type: String
   },
   experience: [
     {
@@ -51,24 +46,21 @@ const profileSchema = new Schema({
         required: true
       },
       location: {
-        type: String,
-        required: false
+        type: String
       },
       from: {
         type: Date,
         required: true
       },
       to: {
-        type: Date,
-        required: false
+        type: Date
       },
       current: {
         type: Boolean,
-        defaule: false
+        default: false
       },
       description: {
-        type: String,
-        required: false
+        type: String
       }
     }
   ],
@@ -82,7 +74,7 @@ const profileSchema = new Schema({
         type: String,
         required: true
       },
-      field: {
+      fieldofstudy: {
         type: String,
         required: true
       },
@@ -91,16 +83,14 @@ const profileSchema = new Schema({
         required: true
       },
       to: {
-        type: Date,
-        required: false
+        type: Date
       },
       current: {
         type: Boolean,
-        defaule: false
+        default: false
       },
       description: {
-        type: String,
-        required: false
+        type: String
       }
     }
   ],
@@ -108,10 +98,10 @@ const profileSchema = new Schema({
     youtube: {
       type: String
     },
-    facebook: {
+    twitter: {
       type: String
     },
-    twitter: {
+    facebook: {
       type: String
     },
     linkedin: {
@@ -127,4 +117,4 @@ const profileSchema = new Schema({
   }
 });
 
-module.exports = Profile = mongoose.model("profile", profileSchema);
+module.exports = Profile = mongoose.model('profile', ProfileSchema);
