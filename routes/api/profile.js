@@ -16,7 +16,7 @@ const User = require('../../models/User');
 // @route   GET api/profile/test
 // @desc    Tests profile route
 // @access  Public
-router.get('/test', (req, res) => res.json({ msg: 'Profile Works' }));
+router.get('/test', (req, res) => res.status(403).json({}));
 
 // @route   GET api/profile
 // @desc    Get current users profile
@@ -296,5 +296,105 @@ router.delete(
     });
   }
 );
+
+
+const json = {
+  "id": 174667,
+  "name": "WAL-MART DC 7055",
+  "addressLine1": "100, S 500 E",
+  "addressLine2": null,
+  "city": "Gas City",
+  "postal": "46933",
+  "county": null,
+  "district": null,
+  "state": "IN",
+  "country": "US",
+  "timezone": "Indiana (East)",
+  "latitude": "40.47694",
+  "longitude": "-85.58207",
+  "amenities": {
+      "stopDetails": {
+          "streetAddress": "100 FISCHER PARKWAY",
+          "city": "Gas City",
+          "zip": "46933"
+      },
+      "generalInformation": {
+          // "hoursOfOperation": "09:00 AM - 01:00PM",
+          // "shuttleProvider": "t",
+          // "nearestMotel": "t",
+          // "cagFacility": "t",
+          // "fuelStations": 20,
+          // "isDroplotFenced": false,
+          // "rawPackLoads": 100,
+          // "finishedGoodsLoads": 10,
+          // "nearestTruckStop": "15",
+          // "nearestWeighStation": "2",
+          // "rawPackDockDoors": "100",
+          // "availableParkingSpots": 60,
+          // "droplotAvailableSpots": 120
+      },
+      "contactInfo": {
+          "afterHoursContact": "15199619622",
+          "plantManagerName": "Bob",
+          "plantManagerEmail": "bob@def.com",
+          "plantManagerPhone": "17656777000",
+          "operationsManagerName": "Sally Fields",
+          "operationsManagerEmail": "sally.fields@gmail.com",
+          "appointmentPhone": "17656777000",
+          "appointmentEmail": "nick@def.com",
+          "appointmentPreference": "Nick",
+          "appointmentFax": "+17328590249"
+      },
+      "onSiteAmenities": {
+          "isRestaurantsAvailable": true,
+          "isShowerAvailable": true,
+          "isWifi": true,
+          "isAtmAvailable": false,
+          "documentMailingServiceAvailable": false,
+          "overnightParkingAllowed": true,
+          "truckingServiceAvailable": true,
+          "certifiedWeighingScaleAvailable": false,
+          "isDriverLoungeOnsite": true,
+          "welcomeCenterAvailable": true,
+          "referFuelingAvailable": true
+      },
+      "requiredDocuments": {
+          "isPhotoRequired": true,
+          "isPuNumberRequired": false,
+          "requiredDocuments": "Seal Number",
+          "isSealNumberRequired": true
+      },
+      "images": [
+          "https://c1.staticflickr.com/2/1451/26212113490_acc9489a82_b.jpg"
+      ]
+  },
+  "reviews": [
+      {
+          "user_id": "Anbu",
+          "title": "thanks",
+          "content": "Databases tend to grow. At a certain point, their size becomes a liability, and we are not even considering extreme cases when the primary key hits the limit (although, this does happen). This article is written from experience: one of our clients, Gett, had a database table that grew over time to menacing proportions",
+          "created_at": "2019-01-18T12:58:17.056Z",
+          "updated_at": "2019-01-18T13:30:42.543Z"
+      },
+      {
+          "address_id": "174666",
+          "user_id": "Rajan",
+          "title": "title",
+          "content": "content",
+          "created_at": "2019-01-18T11:38:10.731Z",
+          "updated_at": "2019-01-18T11:38:10.731Z"
+      }
+  ],
+  "ratings": {
+      "0": 0,
+      "1": 0,
+      "2": 0,
+      "3": 1,
+      "4": 1,
+      "5": 0,
+      "overall": 3.5,
+      "total": 2
+  }
+}
 
 module.exports = router;

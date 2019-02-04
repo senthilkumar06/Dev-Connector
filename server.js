@@ -13,14 +13,22 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+// Enable CORS
+app.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
+
 // DB Config
 const db = require('./config/keys').mongoURI;
 
 // Connect to MongoDB
-mongoose
-  .connect(db)
-  .then(() => console.log('MongoDB Connected'))
-  .catch(err => console.log(err));
+// mongoose
+//   .connect(db)
+//   .then(() => console.log('MongoDB Connected'))
+//   .catch(err => console.log(err));
 
 // Passport middleware
 app.use(passport.initialize());
