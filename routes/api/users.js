@@ -16,7 +16,30 @@ const User = require('../../models/User');
 // @route   GET api/users/test
 // @desc    Tests users route
 // @access  Public
-router.get('/test', (req, res) => res.json({ msg: 'Users Works' }));
+router.get('/test', (req, res) => {
+  var pc = "Senthil kumar Balasubramanian";
+  zipayload = {
+    ziPartnerCode: pc
+  };
+  var ISSUER = "zoominfo";
+  var d = new Date();
+  var n = d.getTime();
+  iat = Math.round(n / 1000);
+  exp = Math.round(n / 1000) + 60 * 60;
+  var uuid = require("uuid");
+
+  payload = {
+    iss: ISSUER,
+    iat: iat,
+    exp: exp,
+    jti: uuid(),
+    ziPayLoad: zipayload
+  };
+
+  var password = "Welcome12#";
+  var token = jwt.sign(payload, password);
+  res.status(200).json({ 'token': token })
+});
 
 // @route   GET api/users/register
 // @desc    Register user
