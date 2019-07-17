@@ -45,6 +45,7 @@ router.post(
   '/',
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
+    console.log('route found');
     const { errors, isValid } = validatePostInput(req.body);
 
     // Check Validation
