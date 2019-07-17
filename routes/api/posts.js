@@ -30,6 +30,7 @@ router.get('/', (req, res) => {
 // @desc    Get post by id
 // @access  Public
 router.get('/:id', (req, res) => {
+  console.log('route found');
   Post.findById(req.params.id)
     .then(post => res.json(post))
     .catch(err =>
